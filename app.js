@@ -9,16 +9,16 @@ let r = '';
 let botonEn = document.querySelector('#encriptardato');
 //console.log('inicio'+cajaTex);
 function validar(){
-    myReplace();
     cajaTex = document.querySelector('#textarea');
-    console.log('inicio validar'+cajaTex);
+    myReplace();
+    //console.log('inicio validar'+cajaTex);
         if(cajaTex.value == "" || r ==""){
             //console.log('hola');
             textoPreventivo();
             return validar;
         }else if(cont == 0){
            // myReplace();
-            console.log(typeof(r)+'despues de replace'+' '+r+' '+cajaTex);
+            //console.log(typeof(r)+'despues de replace'+' '+r+' '+cajaTex);
                     textoPreventivo2();
                     //console.log('valido1'+cajaTex);
                     tomarEncriptar();
@@ -33,7 +33,7 @@ function valida2(){
         textoPreventivo();
         return valida2;
     }else if(cont == 2){
-        textoPreventivo2();
+        //textoPreventivo2();
         desencriptar();
         //console.log('sali de desencriptar'+cajaTex);
     }
@@ -41,7 +41,7 @@ function valida2(){
 
 function tomarEncriptar(){
     //console.log('entre');
-    textoaEncriptar = r;
+    textoaEncriptar = r.toLowerCase();
     //console.log(textoaEncriptar);
         for(i=0;i<textoaEncriptar.length;i++){
             const lectura = textoaEncriptar[i];
@@ -61,13 +61,16 @@ function tomarEncriptar(){
         document.querySelector('#encriptardato').setAttribute('disabled','true');//boton encriptar
         document.querySelector('#textoCopiado').removeAttribute('disabled','true');//boton copiar
         cont++;
-        inicioDato();
+        //inicioDato();
 }
 function textoPreventivo(){
     document.querySelector('#ingresarTexto').textContent = '*ingresar texto correctamente!';
 }
 function textoPreventivo2(){
     document.querySelector('#ingresarTexto').textContent = "";
+}
+function textoPreventivo3(){
+    document.querySelector('#ingresarTexto').textContent = '*posible error/confirme texto copiado!';
 }
 
 function copiarTexto(){
@@ -76,7 +79,7 @@ function copiarTexto(){
     textoaDesencriptar = document.getElementById('textoEncriptado');
     navigator.clipboard.writeText(textoaDesencriptar.textContent);
     botonc.textContent ='Copiado';
-    //console.log(textoaDesencriptar);
+    //console.log(textoaDesencriptar.value);//Obtiene valor del campo de texto a desencriptar
     document.querySelector('#desencriptardato').removeAttribute('disabled','true');//boton desencriptar
     document.querySelector('#textoCopiado').setAttribute('disabled','true');//boton copiar
     cont ++;
@@ -86,6 +89,10 @@ function copiarTexto(){
 function desencriptar(){
     //console.log('holaabro');
     //console.log(textoaEncriptar);
+    let vaCampo = document.querySelector('#textarea');
+    //console.log('desencriptar '+ textoaDesencriptar+'----'+vaCampo.value);
+    if(textoaDesencriptar.value == vaCampo.value){
+        //console.log('lo logramos');
     for(i=0;i<textoaEncriptar.length;i++){
         const lectura = textoaEncriptar[i];
         const texto = {
@@ -100,13 +107,25 @@ function desencriptar(){
         textovisible += guarda;
     }
     //console.log(textovisible);
-    document.getElementById('textoEncriptado').textContent = textovisible;
-    document.querySelector('#encriptardato').removeAttribute('disabled','true');//boton encriptar
-    document.querySelector('#desencriptardato').setAttribute('disabled','true');//boton desencriptar
-    botonc.textContent ='Copiar';
-    inicioDato();
-    limpiar();
-    cont = 0;
+        document.getElementById('textoEncriptado').textContent = textovisible;
+        document.querySelector('#encriptardato').removeAttribute('disabled','true');//boton encriptar
+        document.querySelector('#desencriptardato').setAttribute('disabled','true');//boton desencriptar
+        botonc.textContent ='Copiar';
+        //inicioDato();
+        limpiar();
+        cont = 0;
+        inicioDato();
+        textoPreventivo2();
+    }else{
+        limpiar();
+        textoPreventivo3();
+        //console.log('entro cuando es diferente');
+        //document.getElementById('#textarea').textContent = "";
+        return valida2;
+    }
+
+    //console.log('fin sin entrar al else');
+    //valida2();
 }
 function inicioDato(){
     textovisible = '';
@@ -117,7 +136,7 @@ function limpiar(){
 }
 function myReplace(){
     let s = document.querySelector('#textarea').value;
-    console.log('paso1'+s);
+    //console.log('paso1'+s);
     r=s;
     r = r.replace(new RegExp(/\s/g),"");
     r = r.replace(new RegExp(/[0123456789]/g),"");
@@ -132,6 +151,6 @@ function myReplace(){
     r = r.replace(new RegExp(/[ùúûü]/g),"u");
     r = r.replace(new RegExp(/[ýÿ]/g),"y");
     r = r.replace(new RegExp(/\W/g),"");
-    console.log('paso2'+r);
+    //console.log('paso2'+r);
     return r;
 }

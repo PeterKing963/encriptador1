@@ -18,7 +18,7 @@ margin-left: 80px;
 body{
     display: flex;
     flex-wrap: nowrap;
-    background: linear-gradient( #d1ddf1,rgb(76, 119, 235),rgb(50, 47, 231));
+    background: linear-gradient( #bcd1f1,rgb(65, 110, 233),rgb(50, 47, 231));
     /*background-image: url("img/fondoazul.jpg");*/
     background-size: 100% 100%;
     position: relative;
